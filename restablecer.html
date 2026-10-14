@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nueva contraseña · Axiora</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="assets/axiora-icon.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand client" href="./" aria-label="Bio Omega, inicio"><img src="assets/bio-omega.png" alt="Bio Omega de Grupo Gastrotex"></a>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="panel" id="open" hidden>
+      <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+      <h1>Abriendo Axiora…</h1>
+      <p>Si la app no se abre sola, tocá el botón. Ahí vas a elegir tu nueva contraseña.</p>
+      <a class="btn btn-primary" id="open-app" href="#">Abrir Axiora</a>
+      <p style="margin-top:18px;font-size:14px">Tiene que ser el mismo iPad o iPhone desde el que pediste el cambio. Si no, pedilo de nuevo desde la app en ese dispositivo.</p>
+    </div>
+
+    <div class="panel" id="other-device">
+      <div class="badge warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg></div>
+      <h1>Abrí el link en tu iPad o iPhone</h1>
+      <p>Por seguridad, la nueva contraseña se elige en la app Axiora, en el mismo dispositivo desde el que la pediste.</p>
+      <p>Este link ya se usó al abrirlo acá. En la app tocá otra vez "Olvidé mi contraseña" y abrí el nuevo email en ese iPad o iPhone.</p>
+    </div>
+
+    <div class="panel" id="error" hidden>
+      <div class="badge warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg></div>
+      <h1>Este link ya no es válido</h1>
+      <p>Puede que ya lo hayas usado o que haya vencido. En la app tocá "Olvidé mi contraseña" para recibir uno nuevo.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>Bio Omega · Grupo Gastrotex · <a href="privacidad.html">Política de privacidad</a></span>
+      <span class="powered">Funciona con <img src="assets/axiora-logo.png" alt="Axiora"></span>
+    </div>
+  </footer>
+
+  <script>
+    // Supabase redirige acá con ?code=...; la app lo canjea por la sesión.
+    // Flujo PKCE: solo funciona en el dispositivo que pidió el cambio.
+    const APP_URL = 'com.robosurg.surgicalkpiapp://reset-password';
+
+    function isAppleMobile(ua, maxTouchPoints) {
+      // El iPad se presenta como Mac: se lo distingue por la pantalla táctil
+      return /iPad|iPhone|iPod/.test(ua) || (/Macintosh/.test(ua) && maxTouchPoints > 1);
+    }
+
+    function show(id) {
+      for (const panel of document.querySelectorAll('.panel')) panel.hidden = panel.id !== id;
+    }
+
+    const params = new URLSearchParams(location.search + '&' + location.hash.replace(/^#/, ''));
+    const code = params.get('code');
+    if (!code || params.get('error') || params.get('error_code')) {
+      show('error');
+    } else if (isAppleMobile(navigator.userAgent, navigator.maxTouchPoints)) {
+      const appUrl = APP_URL + '?code=' + encodeURIComponent(code);
+      document.getElementById('open-app').href = appUrl;
+      show('open');
+      window.location.href = appUrl;
+    } else {
+      show('other-device');
+    }
+  </script>
+</body>
+</html>

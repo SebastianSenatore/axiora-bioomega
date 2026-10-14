@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Email confirmado · Axiora</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="assets/axiora-icon.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand client" href="./" aria-label="Bio Omega, inicio"><img src="assets/bio-omega.png" alt="Bio Omega de Grupo Gastrotex"></a>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="panel" id="ok">
+      <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <h1>Tu email quedó confirmado</h1>
+      <p>Volvé a la app Axiora e iniciá sesión con tu email y contraseña.</p>
+      <p>La administración de Bio Omega va a revisar tu solicitud. Hasta que la apruebe, al entrar vas a ver el aviso "Tu solicitud está en revisión".</p>
+    </div>
+
+    <div class="panel" id="error" hidden>
+      <div class="badge warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg></div>
+      <h1>Este link ya no es válido</h1>
+      <p>Puede que ya lo hayas usado o que haya vencido. Si tu email ya estaba confirmado, iniciá sesión en la app.</p>
+      <p>Si no podés entrar, pedí acceso otra vez desde la app o escribinos a <a href="mailto:ssenatore@gastrotex.com.ar?subject=Soporte%20Axiora">ssenatore@gastrotex.com.ar</a>.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>Bio Omega · Grupo Gastrotex · <a href="privacidad.html">Política de privacidad</a></span>
+      <span class="powered">Funciona con <img src="assets/axiora-logo.png" alt="Axiora"></span>
+    </div>
+  </footer>
+
+  <script>
+    // Supabase informa los errores en la query o en el fragmento (#error=...)
+    const params = new URLSearchParams(location.search + '&' + location.hash.replace(/^#/, ''));
+    if (params.get('error') || params.get('error_code')) {
+      document.getElementById('ok').hidden = true;
+      document.getElementById('error').hidden = false;
+    }
+  </script>
+</body>
+</html>
