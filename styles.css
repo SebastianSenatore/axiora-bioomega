@@ -255,6 +255,8 @@ section { padding-block: 84px; }
   font-weight: 700;
   margin-bottom: 14px;
 }
+.card-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.btn-sm { padding: 9px 16px; font-size: 14px; }
 .powered { display: inline-flex; align-items: center; gap: 10px; }
 .powered img { height: 34px; width: auto; }
 .panel .btn-ghost { margin-left: 6px; }
